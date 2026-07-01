@@ -1,0 +1,18 @@
+platform: python                 # requirements.txt includes fastapi -> indicates a Python FastAPI app
+platformVersion: "3.14"       # README.md contains a build.yaml snippet with platformVersion: "3.14"
+
+run:
+  port: 8080                    # README.md build.yaml snippet sets run.port: 8080
+  # startCommand omitted so Oryx can auto-generate a startup script (gunicorn is in requirements)
+
+static:
+  directories:
+    - static                     # backend/app.py serves files from a top-level "static" directory
+  disabled: false                # keep static extraction enabled (auto-detection + explicit dir)
+
+healthCheck:
+  enabled: true                  # this is a web backend (FastAPI); enable HTTP health checks
+  path: "/api/health"          # backend/app.py defines @app.get("/api/health") returning status
+  expectedStatusCode: 200        # the handler returns a 200-style JSON on success
+
+# Heads-up: only the latest commit on 'main' was scanned — review this file before deploying.
