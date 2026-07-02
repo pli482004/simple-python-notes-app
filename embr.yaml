@@ -1,0 +1,17 @@
+platform: python  # backend/ contains a FastAPI app (backend/app.py) and requirements.txt lists fastapi
+platformVersion: "3.12"  # README's example build.yaml shows platformVersion: "3.14"
+
+run:
+  port: 8080  # README deploy snippet and example gunicorn bind use 8080
+
+static:
+  directories:
+    - static  # backend/app.py sets STATIC_DIR -> ../static and serves index.html/favicon.svg
+  spaFallback: true  # single-page frontend served by backend (serve_index returns index.html)
+
+healthCheck:
+  enabled: true  # backend exposes /api/health (backend/app.py)
+  path: "/api/health"  # health endpoint implemented in backend/app.py
+  expectedStatusCode: 200  # health() returns JSON with 200 OK
+
+# Heads-up: Only the latest commit on 'main' was scanned; review this config before deploying.
