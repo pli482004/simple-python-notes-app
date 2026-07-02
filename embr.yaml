@@ -1,0 +1,18 @@
+platform: python              # FastAPI + requirements.txt (fastapi) indicate a Python app
+platformVersion: "3.14"   # README's example build.yaml sets platformVersion: "3.14"
+
+run:
+  port: 8080                # README/build.yaml example and platform example use 8080
+  startCommand: "/output/pythonenv3.14/bin/gunicorn --bind 0.0.0.0:$PORT application:app"  # application.py is the WSGI entrypoint and README recommends gunicorn; use venv binary per Embr notes
+
+static:
+  directories:
+    - static               # repo contains a top-level static/ directory with frontend assets
+  spaFallback: false       # app serves index.html at / and has backend API at /api/* (no SPA fallback required)
+
+healthCheck:
+  enabled: true            # backend defines /api/health in backend/app.py
+  path: "/api/health"     # exact health endpoint found in backend/app.py
+  expectedStatusCode: 200  # health route returns status 200 on success
+
+# Heads-up: only the latest commit on main was scanned — review this generated embr.yaml before deploying.
