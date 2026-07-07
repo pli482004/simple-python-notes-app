@@ -1,0 +1,19 @@
+platform: python                # requirements.txt and FastAPI app (backend/app.py)
+platformVersion: "3.14"      # build.yaml snippet in README.md shows "3.14"
+
+# Let Oryx generate the startup script so the venv is activated correctly
+# (README shows gunicorn usage; Oryx will detect and produce the proper start)
+run:
+  port: 8080                    # README example and local run use port 8080
+
+static:
+  directories:
+    - static                    # repo contains static/index.html and favicon.svg (served by backend.app)
+  disabled: false               # keep static extraction enabled so Embr serves /index.html and assets
+
+healthCheck:
+  enabled: true                 # enable health-checks; app exposes /api/health
+  path: "/api/health"         # backend.app defines /api/health which returns status
+  expectedStatusCode: 200       # /api/health returns HTTP 200 when healthy
+
+# Heads-up: Only the latest commit on 'main' was scanned for this config. Review before deploying.
