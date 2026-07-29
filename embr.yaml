@@ -1,0 +1,19 @@
+platform: python  # requirements.txt includes fastapi; backend/app.py defines a FastAPI app
+platformVersion: "3.14"  # README contains a build.yaml snippet that sets platformVersion: "3.14"
+
+run:
+  port: 8080  # README/build.yaml snippet sets run.port: 8080
+  routePrefixes:
+    - /api  # backend routes in backend/app.py are under /api (e.g. /api/health, /api/notes)
+
+static:
+  directories:
+    - static  # repo has a top-level static/ and backend.app serves files from that directory
+
+healthCheck:
+  enabled: true  # health endpoint exists in backend/app.py
+  path: "/api/health"  # /api/health defined in backend/app.py
+  expectedStatusCode: 200  # health() returns a JSON payload and is expected to return 200
+
+# new comment
+# Heads-up: only the latest commit on branch 'hello' was scanned; review this configuration before deploying.
