@@ -1,0 +1,16 @@
+platform: python  # README.md and requirements.txt indicate a Python FastAPI app
+platformVersion: "3.14"  # README.md example build.yaml shows platformVersion: "3.14"
+
+run:
+  port: 8080  # build snippet in README.md sets port 8080 for the app
+  # startCommand omitted so Oryx can generate the appropriate Gunicorn/start script (matches README guidance)
+
+static:
+  directories:
+    - static  # repository contains top-level static/ with index.html and favicon.svg
+
+healthCheck:
+  path: "/api/health"  # backend/app.py defines GET /api/health
+  expectedStatusCode: 200  # handler returns a 200 JSON status when healthy
+
+# Heads-up: Only the latest commit on branch 'hello' was scanned — review this config before deploying.
